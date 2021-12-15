@@ -1,0 +1,5 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.pearstack.lock.aspect.LockAspect,\
+com.pearstack.lock.properties.LockAutoProperties,\
+com.pearstack.lock.service.LockedService,\
+com.pearstack.lock.LockAutoConfiguration
