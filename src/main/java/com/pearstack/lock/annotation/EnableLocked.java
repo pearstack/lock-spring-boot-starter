@@ -1,9 +1,9 @@
 package com.pearstack.lock.annotation;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import com.pearstack.lock.LockAutoConfiguration;
+import org.springframework.context.annotation.Import;
+
+import java.lang.annotation.*;
 
 /**
  * 启动分布式锁注释
@@ -12,5 +12,7 @@ import java.lang.annotation.Target;
  * @date 2021/12/15 16:22
  */
 @Target(value = {ElementType.METHOD})
+@Import({LockAutoConfiguration.class})
 @Retention(value = RetentionPolicy.RUNTIME)
+@Documented
 public @interface EnableLocked {}

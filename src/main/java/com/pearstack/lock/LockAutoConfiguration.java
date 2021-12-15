@@ -1,18 +1,17 @@
 package com.pearstack.lock;
 
-import com.pearstack.lock.annotation.EnableLocked;
+import com.pearstack.lock.aspect.LockAspect;
 import com.pearstack.lock.properties.LockAutoProperties;
+import com.pearstack.lock.service.LockedService;
+import com.pearstack.lock.service.impl.LockKeyServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.framework.CuratorFramework;
-import org.apache.zookeeper.client.ZooKeeperSaslClient;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.integration.redis.util.RedisLockRegistry;
 import org.springframework.integration.zookeeper.config.CuratorFrameworkFactoryBean;
 import org.springframework.integration.zookeeper.lock.ZookeeperLockRegistry;
@@ -25,33 +24,46 @@ import javax.annotation.Resource;
  * @author lihao3
  * @version 1.0.0
  */
+@Slf4j
 @Configuration
-@ConditionalOnClass({EnableLocked.class})
 @EnableConfigurationProperties(LockAutoProperties.class)
 public class LockAutoConfiguration {
-
-  private static final Logger log = LoggerFactory.getLogger(LockAutoConfiguration.class);
 
   @Resource private LockAutoProperties lockAutoProperties;
 
   @Bean
   @ConditionalOnProperty(
-      value = {"spring.lock.type"},
-      havingValue = "0")
-  @ConditionalOnClass(StringRedisTemplate.class)
+          value = {"spring.lock.type"},
+          havingValue = "redis")
   public RedisLockRegistry redisLockRegistry(RedisConnectionFactory redisConnectionFactory) {
     return new RedisLockRegistry(redisConnectionFactory, "redis-lock");
   }
 
   @Bean
-  @ConditionalOnClass(ZooKeeperSaslClient.class)
+  @ConditionalOnProperty(
+      value = {"spring.lock.type"},
+      havingValue = "zookeeper")
   public CuratorFrameworkFactoryBean curatorFrameworkFactoryBean() {
     return new CuratorFrameworkFactoryBean(lockAutoProperties.getZookeeper().getHost());
   }
 
   @Bean
-  @ConditionalOnClass(ZooKeeperSaslClient.class)
+  @ConditionalOnProperty(
+      value = {"spring.lock.type"},
+      havingValue = "zookeeper")
   public ZookeeperLockRegistry zookeeperLockRegistry(CuratorFramework curatorFramework) {
     return new ZookeeperLockRegistry(curatorFramework, "/zookeeper-lock");
+  }
+
+  @Bean
+  @ConditionalOnMissingBean
+  public LockedService lockedService() {
+    return new LockKeyServiceImpl();
+  }
+
+  @Bean
+  @ConditionalOnMissingBean
+  public LockAspect lockAspect() {
+    return new LockAspect();
   }
 }

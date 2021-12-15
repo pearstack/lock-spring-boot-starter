@@ -1,5 +1,10 @@
 package com.pearstack.lock.annotation;
 
+import com.pearstack.lock.LockAutoConfiguration;
+import com.pearstack.lock.aspect.LockAspect;
+import com.pearstack.lock.properties.LockAutoProperties;
+import org.springframework.context.annotation.Import;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -9,6 +14,7 @@ import java.lang.annotation.Target;
  * @author lihao3
  * @date 2021/12/15 11:03
  */
+@Import({LockAutoConfiguration.class, LockAspect.class, LockAutoProperties.class})
 @Target(value = {ElementType.METHOD})
 @Retention(value = RetentionPolicy.RUNTIME)
 public @interface Locked {
