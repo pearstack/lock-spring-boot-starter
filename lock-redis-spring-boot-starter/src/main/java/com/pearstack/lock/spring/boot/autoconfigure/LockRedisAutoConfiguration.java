@@ -1,4 +1,4 @@
-package com.pearstack.lock.config;
+package com.pearstack.lock.spring.boot.autoconfigure;
 
 import com.pearstack.lock.aspect.LockAspect;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -16,13 +16,13 @@ import org.springframework.integration.redis.util.RedisLockRegistry;
 @ConditionalOnClass(RedisOperations.class)
 public class LockRedisAutoConfiguration {
 
-    @Bean
-    public RedisLockRegistry redisLockRegistry(RedisConnectionFactory redisConnectionFactory) {
-        return new RedisLockRegistry(redisConnectionFactory, "redis-lock");
-    }
+  @Bean
+  public RedisLockRegistry redisLockRegistry(RedisConnectionFactory redisConnectionFactory) {
+    return new RedisLockRegistry(redisConnectionFactory, "redis-lock");
+  }
 
-    @Bean
-    public LockAspect lockAspect() {
-        return new LockAspect();
-    }
+  @Bean
+  public LockAspect lockAspect() {
+    return new LockAspect();
+  }
 }

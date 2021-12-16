@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.pearstack.lock.config.LockRedisAutoConfiguration
+com.pearstack.lock.spring.boot.autoconfigure.LockRedisAutoConfiguration

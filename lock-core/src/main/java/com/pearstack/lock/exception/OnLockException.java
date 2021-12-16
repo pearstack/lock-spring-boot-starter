@@ -10,7 +10,6 @@ import java.io.Serializable;
  */
 public class OnLockException extends RuntimeException implements Serializable {
 
-
   public OnLockException(String message) {
     super(message);
   }

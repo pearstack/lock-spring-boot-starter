@@ -1,9 +1,9 @@
 package com.pearstack.lock.aspect;
 
 import com.pearstack.lock.annotation.Locked;
-import com.pearstack.lock.spring.boot.autoconfigure.LockAutoProperties;
 import com.pearstack.lock.service.LockFailedService;
 import com.pearstack.lock.service.LockKeyService;
+import com.pearstack.lock.spring.boot.autoconfigure.LockAutoProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -38,8 +38,7 @@ public class LockAspect {
   public void lockPointCut(Locked locked) {}
 
   @Around(value = "lockPointCut(locked)", argNames = "joinPoint,locked")
-  public Object around(ProceedingJoinPoint joinPoint, Locked locked)
-      throws Throwable {
+  public Object around(ProceedingJoinPoint joinPoint, Locked locked) {
     // 判断是否开启
     // 获取分布式锁的key
     String key =
@@ -48,11 +47,10 @@ public class LockAspect {
             + lockKeyService.getKey(joinPoint, locked.name(), locked.keys());
     // 初始化锁对象
     Lock lock = redisLockRegistry.obtain(key);
-    // 尝试上锁
-    boolean lockFlag = lock.tryLock(properties.getTime(), properties.getUnit());
-
     Object result = null;
     try {
+      // 尝试上锁
+      boolean lockFlag = lock.tryLock(properties.getTime(), properties.getUnit());
       result = joinPoint.proceed();
     } catch (Throwable e) {
       lockFailedService.onLockFailed(key);

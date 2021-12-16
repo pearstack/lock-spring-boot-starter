@@ -21,7 +21,6 @@ import org.springframework.context.annotation.Configuration;
 @EnableConfigurationProperties(LockAutoProperties.class)
 public class LockAutoConfiguration {
 
-
   @Bean
   @ConditionalOnMissingBean
   public LockKeyService lockedService() {
