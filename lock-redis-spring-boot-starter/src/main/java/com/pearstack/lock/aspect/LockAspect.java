@@ -3,7 +3,6 @@ package com.pearstack.lock.aspect;
 import com.pearstack.lock.annotation.Locked;
 import com.pearstack.lock.service.LockFailedService;
 import com.pearstack.lock.service.LockKeyService;
-import com.pearstack.lock.spring.boot.autoconfigure.LockAutoProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -25,7 +24,6 @@ import java.util.concurrent.locks.Lock;
 @Component
 public class LockAspect {
 
-  @Resource private LockAutoProperties properties;
   @Resource private RedisLockRegistry redisLockRegistry;
   @Resource private LockKeyService lockKeyService;
   @Resource private LockFailedService lockFailedService;
