@@ -39,7 +39,7 @@ public class DefaultLockKeyServiceImpl implements LockKeyService {
     if (ObjectUtil.isEmpty(name)) {
       name =
           StrUtil.format(
-              "{}:{}",
+              "{}.{}()",
               joinPoint.getSignature().getDeclaringTypeName(),
               joinPoint.getSignature().getName());
     }

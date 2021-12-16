@@ -2,7 +2,6 @@ package com.pearstack.lock.spring.boot.autoconfigure;
 
 import com.pearstack.lock.aspect.LockAspect;
 import org.apache.curator.framework.CuratorFramework;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +15,6 @@ import javax.annotation.Resource;
  * @date 2021/12/16 14:31
  */
 @Configuration
-@ConditionalOnClass(ZookeeperLockRegistry.class)
 @EnableConfigurationProperties(LockZookeeperAutoProperties.class)
 public class LockZookeeperAutoConfiguration {
 

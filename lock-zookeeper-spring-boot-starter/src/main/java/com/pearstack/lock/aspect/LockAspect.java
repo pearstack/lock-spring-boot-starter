@@ -48,7 +48,7 @@ public class LockAspect {
     // 初始化锁对象
     Lock lock = zookeeperLockRegistry.obtain(key);
     // 尝试上锁
-    boolean lockFlag = lock.tryLock(properties.getTime(), properties.getUnit());
+    boolean lockFlag = lock.tryLock(properties.getExpire(), properties.getUnit());
 
     Object result = null;
     try {

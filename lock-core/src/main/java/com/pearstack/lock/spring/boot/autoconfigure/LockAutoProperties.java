@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit;
 public class LockAutoProperties {
 
   /** 锁过期时间 */
-  private long time = 3;
+  private long expire = 3;
 
   /** 锁过期时间单位 */
   private TimeUnit unit = TimeUnit.SECONDS;
