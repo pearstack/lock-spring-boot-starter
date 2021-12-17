@@ -2,17 +2,25 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.pear-stack</groupId>
+    <groupId>io.github.pearstack</groupId>
     <artifactId>lock-spring-boot-starter</artifactId>
     <packaging>pom</packaging>
     <version>0.0.1-SNAPSHOT</version>
+    <name>lock-spring-boot-starter</name>
+    <description>A distributed lock that supports the use of Redis and Zookeeper, out of the box, fast and easy to use</description>
+    <url>https://github.com/pearstack/lock-spring-boot-starter</url>
+
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>7</version>
+    </parent>
+
     <modules>
         <module>lock-core</module>
         <module>lock-redis-spring-boot-starter</module>
         <module>lock-zookeeper-spring-boot-starter</module>
     </modules>
-    <name>lock-spring-boot-starter</name>
-    <description>lock-spring-boot-starter</description>
 
     <!-- 开源协议 apache 2.0 -->
     <licenses>
@@ -24,11 +32,19 @@
         </license>
     </licenses>
 
+    <!-- 仓库信息 -->
+    <scm>
+        <url>https://github.com/pearstack/lock-spring-boot-starter</url>
+        <connection>https://github.com/pearstack/lock-spring-boot-starter.git</connection>
+        <developerConnection>https://github.com/pearstack/lock-spring-boot-starter</developerConnection>
+    </scm>
+
     <!-- 作者信息 -->
     <developers>
         <developer>
             <name>李昊</name>
             <email>lihao3@foxmail.com</email>
+            <timezone>+8</timezone>
         </developer>
     </developers>
 
@@ -64,37 +80,4 @@
             <optional>true</optional>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                    <encoding>UTF-8</encoding>
-                </configuration>
-            </plugin>
-            <!--配置生成源码包-->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <version>3.2.1</version>
-                <!-- 绑定source插件到Maven的生命周期,并在生命周期后执行绑定的source的goal -->
-                <executions>
-                    <execution>
-                        <!-- 绑定source插件到Maven的生命周期 -->
-                        <phase>compile</phase>
-                        <!--在生命周期后执行绑定的source插件的goals -->
-                        <goals>
-                            <goal>jar-no-fork</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
-
 </project>

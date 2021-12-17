@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.pearstack.lock.spring.boot.autoconfigure.LockZookeeperAutoConfiguration
+io.github.pearstack.lock.spring.boot.autoconfigure.LockZookeeperAutoConfiguration

@@ -30,7 +30,7 @@
 
 ```xml
         <dependency>
-            <groupId>com.pear-stack</groupId>
+            <groupId>io.github.pearstack</groupId>
             <artifactId>lock-redis-spring-boot-starter</artifactId>
             <version>{{last.version}}</version>
         </dependency>
@@ -42,7 +42,7 @@
 
 ```xml
     <dependency>
-        <groupId>com.pear-stack</groupId>
+        <groupId>io.github.pearstack</groupId>
         <artifactId>lock-zookeeper-spring-boot-starter</artifactId>
         <version>{{last.version}}</version>
     </dependency>
