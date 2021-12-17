@@ -19,40 +19,33 @@ public @interface Locked {
    *
    * @return 名称
    */
-  String name() default "";
+  String name();
 
   /**
    * 锁的唯一key, 支持spring el表达式
    *
    * @return KEY
    */
-  String[] keys() default "";
+  String[] keys();
 
   /**
    * 锁过期时间
    *
    * @return 过期时间
    */
-  long expire() default 30000;
+  long expire();
 
   /**
    * 时间单位, 默认为毫秒
    *
    * @return 锁过期时间单位
    */
-  TimeUnit unit() default TimeUnit.MILLISECONDS;
+  TimeUnit unit();
 
   /**
    * 获取锁超时时间 时间单位根据unit()变化而变化 PS: 重试时间不能大于超时时间
    *
    * @return 获取锁超时时间
    */
-  long acquireTimeout() default 3000;
-
-  /**
-   * 获取锁失败时重试时间间隔, 时间单位根据unit()变化而变化
-   *
-   * @return 获取锁失败时重试时间间隔
-   */
-  long retryInterval() default 100;
+  long acquireTimeout();
 }

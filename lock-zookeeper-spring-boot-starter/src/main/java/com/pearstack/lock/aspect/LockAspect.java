@@ -1,8 +1,10 @@
 package com.pearstack.lock.aspect;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.pearstack.lock.annotation.Locked;
 import com.pearstack.lock.service.LockFailedService;
 import com.pearstack.lock.service.LockKeyService;
+import com.pearstack.lock.spring.boot.autoconfigure.LockAutoProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -25,8 +27,10 @@ import java.util.concurrent.locks.Lock;
 public class LockAspect {
 
   @Resource private ZookeeperLockRegistry zookeeperLockRegistry;
+  @Resource private LockAutoProperties properties;
   @Resource private LockKeyService lockKeyService;
   @Resource private LockFailedService lockFailedService;
+
 
   /**
    * 注解切面地址
@@ -36,10 +40,25 @@ public class LockAspect {
   @Pointcut("@annotation(locked)")
   public void lockPointCut(Locked locked) {}
 
+  /**
+   * 实现分布式锁的核心代码
+   *
+   * @param joinPoint 切面方法
+   * @param locked 分布式锁注解
+   * @return
+   */
   @Around(value = "lockPointCut(locked)", argNames = "joinPoint,locked")
   public Object around(ProceedingJoinPoint joinPoint, Locked locked) {
+    // 初始化分布式锁超时时间
+    long expire = ObjectUtil.isNotEmpty(locked.expire()) ? locked.expire() : properties.getExpire();
+    // 初始化获取锁超时时间
+    long acquireTimeout =
+            ObjectUtil.isNotEmpty(locked.acquireTimeout())
+                    ? locked.acquireTimeout()
+                    : properties.getAcquireTimeout();
+
     // 防止重试时间大于超时时间
-    if (locked.retryInterval() >= locked.acquireTimeout()) {
+    if (properties.getRetryInterval() >= acquireTimeout) {
       log.warn("retryInterval more than acquireTimeout,please check your configuration");
     }
     // 获取分布式锁的key
@@ -51,15 +70,15 @@ public class LockAspect {
     boolean lockFlag;
     try {
       // 尝试上锁
-      lockFlag = lock.tryLock(locked.expire(), locked.unit());
+      lockFlag = lock.tryLock(expire, locked.unit());
       // 判断是否上锁成功
       if (!lockFlag) {
         // 获取当前时间
         long start = System.currentTimeMillis();
         // 循环遍历上锁
-        while (System.currentTimeMillis() - start < locked.acquireTimeout()) {
-          lockFlag = lock.tryLock(locked.expire(), locked.unit());
-          TimeUnit.MILLISECONDS.sleep(locked.retryInterval());
+        while (System.currentTimeMillis() - start < acquireTimeout) {
+          lockFlag = lock.tryLock(expire, locked.unit());
+          TimeUnit.MILLISECONDS.sleep(properties.getRetryInterval());
         }
       }
       // 如果最后还是上锁失败, 那就执行异常方法

@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Getter
 @Setter
 @Component
-@ConfigurationProperties(prefix = "spring.lock.zookeeper")
+@ConfigurationProperties(prefix = "spring.zookeeper")
 public class LockZookeeperAutoProperties {
 
   /** zk 连接地址 */
