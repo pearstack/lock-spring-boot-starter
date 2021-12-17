@@ -1,6 +1,5 @@
 package com.pearstack.lock.aspect;
 
-import cn.hutool.core.util.ObjectUtil;
 import com.pearstack.lock.annotation.Locked;
 import com.pearstack.lock.service.LockFailedService;
 import com.pearstack.lock.service.LockKeyService;
@@ -31,7 +30,6 @@ public class LockAspect {
   @Resource private LockKeyService lockKeyService;
   @Resource private LockFailedService lockFailedService;
 
-
   /**
    * 注解切面地址
    *
@@ -50,12 +48,10 @@ public class LockAspect {
   @Around(value = "lockPointCut(locked)", argNames = "joinPoint,locked")
   public Object around(ProceedingJoinPoint joinPoint, Locked locked) {
     // 初始化分布式锁超时时间
-    long expire = ObjectUtil.isNotEmpty(locked.expire()) ? locked.expire() : properties.getExpire();
+    long expire = locked.expire() != 0 ? locked.expire() : properties.getExpire();
     // 初始化获取锁超时时间
     long acquireTimeout =
-            ObjectUtil.isNotEmpty(locked.acquireTimeout())
-                    ? locked.acquireTimeout()
-                    : properties.getAcquireTimeout();
+        locked.acquireTimeout() != 0 ? locked.acquireTimeout() : properties.getAcquireTimeout();
 
     // 防止重试时间大于超时时间
     if (properties.getRetryInterval() >= acquireTimeout) {
@@ -70,14 +66,14 @@ public class LockAspect {
     boolean lockFlag;
     try {
       // 尝试上锁
-      lockFlag = lock.tryLock(expire, locked.unit());
+      lockFlag = lock.tryLock(expire, properties.getUnit());
       // 判断是否上锁成功
       if (!lockFlag) {
         // 获取当前时间
         long start = System.currentTimeMillis();
         // 循环遍历上锁
         while (System.currentTimeMillis() - start < acquireTimeout) {
-          lockFlag = lock.tryLock(expire, locked.unit());
+          lockFlag = lock.tryLock(expire, properties.getUnit());
           TimeUnit.MILLISECONDS.sleep(properties.getRetryInterval());
         }
       }

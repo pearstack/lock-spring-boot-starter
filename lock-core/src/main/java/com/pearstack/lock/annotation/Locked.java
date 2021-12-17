@@ -4,7 +4,6 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author lihao3
@@ -19,33 +18,26 @@ public @interface Locked {
    *
    * @return 名称
    */
-  String name();
+  String name() default "";
 
   /**
    * 锁的唯一key, 支持spring el表达式
    *
    * @return KEY
    */
-  String[] keys();
+  String[] keys() default "";
 
   /**
    * 锁过期时间
    *
    * @return 过期时间
    */
-  long expire();
-
-  /**
-   * 时间单位, 默认为毫秒
-   *
-   * @return 锁过期时间单位
-   */
-  TimeUnit unit();
+  long expire() default 0;
 
   /**
    * 获取锁超时时间 时间单位根据unit()变化而变化 PS: 重试时间不能大于超时时间
    *
    * @return 获取锁超时时间
    */
-  long acquireTimeout();
+  long acquireTimeout() default 0;
 }
