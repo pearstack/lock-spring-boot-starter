@@ -4,7 +4,6 @@ import org.aspectj.lang.JoinPoint;
 
 /**
  * @author lihao3
- * @date 2021/12/15 12:06
  */
 public interface LockKeyService {
 

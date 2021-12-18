@@ -2,7 +2,6 @@ package io.github.pearstack.lock.service;
 
 /**
  * @author lihao3
- * @date 2021/12/15 12:57
  */
 public class ExpressionRootObject {
   private final Object object;

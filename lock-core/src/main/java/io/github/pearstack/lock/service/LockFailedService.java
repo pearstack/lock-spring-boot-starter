@@ -2,7 +2,6 @@ package io.github.pearstack.lock.service;
 
 /**
  * @author lihao3
- * @date 2021/12/16 14:18
  */
 public interface LockFailedService {
 

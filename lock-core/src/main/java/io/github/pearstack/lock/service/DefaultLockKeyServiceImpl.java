@@ -13,8 +13,9 @@ import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.stereotype.Service;
 
 /**
+ * 默认分布式锁key生成方法
+ *
  * @author lihao3
- * @date 2021/12/15 12:22
  */
 @Service
 public class DefaultLockKeyServiceImpl implements LockKeyService {

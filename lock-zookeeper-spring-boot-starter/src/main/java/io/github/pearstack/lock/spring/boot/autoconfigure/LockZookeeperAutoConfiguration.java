@@ -12,7 +12,6 @@ import javax.annotation.Resource;
 
 /**
  * @author lihao3
- * @date 2021/12/16 14:31
  */
 @Configuration
 @EnableConfigurationProperties(LockZookeeperAutoProperties.class)
