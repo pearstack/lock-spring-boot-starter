@@ -38,8 +38,8 @@
     <!-- 仓库信息 -->
     <scm>
         <url>https://github.com/pearstack/lock-spring-boot-starter</url>
-        <connection>https://github.com/pearstack/lock-spring-boot-starter.git</connection>
-        <developerConnection>https://github.com/pearstack/lock-spring-boot-starter</developerConnection>
+        <connection>scm:git:https://github.com/pearstack/lock-spring-boot-starter.git</connection>
+        <developerConnection>scm:https://github.com/pearstack/lock-spring-boot-starter.git</developerConnection>
     </scm>
 
     <!-- 作者信息 -->
