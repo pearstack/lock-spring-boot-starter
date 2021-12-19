@@ -4,7 +4,7 @@
     <groupId>io.github.pearstack</groupId>
     <artifactId>lock-spring-boot-starter</artifactId>
     <packaging>pom</packaging>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.0.1-SNAPSHOT</version>
     <name>lock-spring-boot-starter</name>
     <description>A distributed lock that supports the use of Redis and Zookeeper, out of the box, fast and easy to use
     </description>
@@ -124,7 +124,7 @@
                             <goal>jar</goal>
                         </goals>
                         <configuration>
-                            <doclint>none</doclint>
+                            <additionalparam>-Xdoclint:none</additionalparam>
                         </configuration>
                     </execution>
                 </executions>
@@ -146,7 +146,6 @@
                         </goals>
                         <configuration>
                             <keyname>0xFBD57694</keyname>
-                            <passphraseServerId>0xFBD57694</passphraseServerId>
                         </configuration>
                     </execution>
                 </executions>
