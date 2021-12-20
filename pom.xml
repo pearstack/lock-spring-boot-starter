@@ -5,7 +5,7 @@
     <groupId>io.github.pearstack</groupId>
     <artifactId>lock-spring-boot-starter</artifactId>
     <packaging>pom</packaging>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2</version>
     <name>lock-spring-boot-starter</name>
     <description>A distributed lock that supports the use of Redis and Zookeeper, out of the box, fast and easy to use
     </description>
@@ -91,18 +91,6 @@
             <optional>true</optional>
         </dependency>
     </dependencies>
-
-    <!-- 注意此处的id要与maven的setting.xml中的server配置的一致 -->
-    <distributionManagement>
-        <snapshotRepository>
-            <id>sonatype-nexus-snapshots</id>
-            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
-        </snapshotRepository>
-        <repository>
-            <id>sonatype-nexus-snapshots</id>
-            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-    </distributionManagement>
 
     <build>
         <plugins>
