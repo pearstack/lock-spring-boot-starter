@@ -11,6 +11,14 @@
     </description>
     <url>https://github.com/pearstack/lock-spring-boot-starter</url>
 
+    <!-- 父仓库 -->
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>9</version>
+        <relativePath/>
+    </parent>
+
     <modules>
         <module>lock-core</module>
         <module>lock-redis-spring-boot-starter</module>
@@ -128,39 +136,6 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
-            <!--  必须配置GPG插件用于使用以下配置对组件进行签名 -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-gpg-plugin</artifactId>
-                <version>1.5</version>
-                <configuration>
-                    <skip>false</skip>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>sign-artifacts</id>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>sign</goal>
-                        </goals>
-                        <configuration>
-                            <keyname>0xFBD57694</keyname>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <!--sonatype 发布插件-->
-            <plugin>
-                <groupId>org.sonatype.plugins</groupId>
-                <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>1.6.7</version>
-                <extensions>true</extensions>
-                <configuration>
-                    <serverId>sonatype-nexus-snapshots</serverId>
-                    <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
-                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
-                </configuration>
             </plugin>
         </plugins>
     </build>
