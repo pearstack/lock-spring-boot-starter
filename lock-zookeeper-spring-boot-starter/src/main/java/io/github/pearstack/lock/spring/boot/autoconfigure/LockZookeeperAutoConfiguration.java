@@ -10,13 +10,12 @@ import org.springframework.integration.zookeeper.lock.ZookeeperLockRegistry;
 
 import javax.annotation.Resource;
 
-/**
- * @author lihao3
- */
+/** @author lihao3 */
 @Configuration
 @EnableConfigurationProperties(LockZookeeperAutoProperties.class)
 public class LockZookeeperAutoConfiguration {
 
+  @Resource private LockAutoProperties properties;
   @Resource private LockZookeeperAutoProperties lockZookeeperAutoProperties;
 
   @Bean
@@ -26,7 +25,7 @@ public class LockZookeeperAutoConfiguration {
 
   @Bean
   public ZookeeperLockRegistry zookeeperLockRegistry(CuratorFramework curatorFramework) {
-    return new ZookeeperLockRegistry(curatorFramework, "/zookeeper-lock");
+    return new ZookeeperLockRegistry(curatorFramework, properties.getPrefix());
   }
 
   @Bean

@@ -15,7 +15,7 @@ import javax.annotation.Resource;
  */
 @Configuration
 @ConditionalOnClass(RedisOperations.class)
-public class LockRedisAutoConfiguration {
+public class LockRedisTemplateAutoConfiguration {
 
   @Resource private LockAutoProperties properties;
 

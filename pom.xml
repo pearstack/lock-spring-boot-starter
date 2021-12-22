@@ -2,10 +2,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <groupId>io.github.pearstack</groupId>
     <artifactId>lock-spring-boot-starter</artifactId>
     <packaging>pom</packaging>
-    <version>0.0.2</version>
+    <version>0.0.3</version>
+
     <name>lock-spring-boot-starter</name>
     <description>A distributed lock that supports the use of Redis and Zookeeper, out of the box, fast and easy to use
     </description>
@@ -21,7 +23,8 @@
 
     <modules>
         <module>lock-core</module>
-        <module>lock-redis-spring-boot-starter</module>
+        <module>lock-redis-template-spring-boot-starter</module>
+        <module>lock-redisson-spring-boot-starter</module>
         <module>lock-zookeeper-spring-boot-starter</module>
     </modules>
 
@@ -45,6 +48,7 @@
 
     <!-- 仓库信息 -->
     <scm>
+        <tag>0.0.3</tag>
         <url>https://github.com/pearstack/lock-spring-boot-starter</url>
         <connection>scm:git:https://github.com/pearstack/lock-spring-boot-starter.git</connection>
         <developerConnection>scm:git:https://github.com/pearstack/lock-spring-boot-starter.git</developerConnection>
@@ -53,9 +57,8 @@
     <!-- 作者信息 -->
     <developers>
         <developer>
-            <name>李昊</name>
+            <name>lihao</name>
             <email>lihao3@foxmail.com</email>
-            <timezone>+8</timezone>
         </developer>
     </developers>
 
@@ -64,6 +67,12 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <spring-boot.version>2.4.1</spring-boot.version>
+        <hutool-core.version>5.7.17</hutool-core.version>
+        <redisson-spring-boot-starter.version>3.16.6</redisson-spring-boot-starter.version>
+        <lock-core.version>0.0.3</lock-core.version>
+        <lock-redis-template.version>0.0.3</lock-redis-template.version>
+        <lock-redisson.version>0.0.3</lock-redisson.version>
+        <lock-zookeeper.version>0.0.3</lock-zookeeper.version>
     </properties>
 
     <dependencyManagement>
@@ -74,6 +83,25 @@
                 <version>${spring-boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+            <!-- hutool 工具包 -->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-core</artifactId>
+                <version>${hutool-core.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.github.pearstack</groupId>
+                <artifactId>lock-core</artifactId>
+                <version>${lock-core.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson-spring-boot-starter</artifactId>
+                <version>${redisson-spring-boot-starter.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

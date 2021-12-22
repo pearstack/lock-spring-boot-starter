@@ -3,11 +3,13 @@
     <parent>
         <artifactId>lock-spring-boot-starter</artifactId>
         <groupId>io.github.pearstack</groupId>
-        <version>0.0.2</version>
+        <version>0.0.3</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>lock-core</artifactId>
+    <description>Distributed locking base code</description>
+    <version>${lock-core.version}</version>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -17,11 +19,6 @@
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-integration</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
 
@@ -29,7 +26,6 @@
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-core</artifactId>
-            <version>5.7.17</version>
         </dependency>
 
         <!--检验是否为空-->
