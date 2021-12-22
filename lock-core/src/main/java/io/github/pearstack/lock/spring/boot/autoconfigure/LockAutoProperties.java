@@ -36,7 +36,7 @@ public class LockAutoProperties {
 
   /** 获取锁超时时间, 默认为3秒 */
   @Min(value = 1, message = "Get lock timeout must be greater than zero")
-  private long acquireTimeout = 3;
+  private long acquireTimeout = 20;
 
   /** 获取锁失败时重试间隔时间, 默认为1秒 */
   @Min(value = 1, message = "Retry interval must be greater than zero if lock acquisition fails")

@@ -7,9 +7,9 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>lock-redis-spring-boot-starter</artifactId>
-    <description>Distributed locking redis template implementation</description>
+    <artifactId>lock-redis-template-spring-boot-starter</artifactId>
     <version>${lock-redis-template.version}</version>
+    <description>Distributed locking redis template implementation</description>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>

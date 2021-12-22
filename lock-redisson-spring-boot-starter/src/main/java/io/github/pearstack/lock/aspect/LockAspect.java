@@ -75,8 +75,10 @@ public class LockAspect {
     } catch (Throwable e) {
       lockFailedService.onLockFailed(key);
     } finally {
-      // 解锁
-      lock.unlock();
+      if (lock.isHeldByCurrentThread()) {
+        // 解锁
+        lock.unlockAsync();
+      }
     }
     return result;
   }
