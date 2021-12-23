@@ -70,9 +70,6 @@
         <hutool-core.version>5.7.17</hutool-core.version>
         <redisson-spring-boot-starter.version>3.16.6</redisson-spring-boot-starter.version>
         <lock-core.version>0.0.3</lock-core.version>
-        <lock-redis-template.version>0.0.3</lock-redis-template.version>
-        <lock-redisson.version>0.0.3</lock-redisson.version>
-        <lock-zookeeper.version>0.0.3</lock-zookeeper.version>
     </properties>
 
     <dependencyManagement>

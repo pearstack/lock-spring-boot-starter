@@ -11,7 +11,7 @@
 
     <artifactId>lock-redisson-spring-boot-starter</artifactId>
     <description>Distributed locking Redisson implementation</description>
-    <version>${lock-redisson.version}</version>
+    <version>0.0.3</version>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>

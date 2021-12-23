@@ -9,7 +9,7 @@
 
     <artifactId>lock-zookeeper-spring-boot-starter</artifactId>
     <description>Distributed Locking Zookeeper Implementation Version</description>
-    <version>${lock-zookeeper.version}</version>
+    <version>0.0.3</version>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
