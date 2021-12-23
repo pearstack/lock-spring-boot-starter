@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
  * @author lihao3
  */
 @Service
-public class DefaultLockKeyServiceImpl implements LockKeyService {
+public class DefaultLockKeyServiceImpl implements GetLockKeyService {
 
   /** 参数名称解析器 */
   private static final ParameterNameDiscoverer NAME_DISCOVERER =
@@ -27,7 +27,7 @@ public class DefaultLockKeyServiceImpl implements LockKeyService {
   private static final ExpressionParser EXPRESSION_PARSER = new SpelExpressionParser();
 
   @Override
-  public String getKey(JoinPoint joinPoint, String name, String[] keys) {
+  public String getKey(JoinPoint joinPoint, String name, String[] keys, String separator) {
     ExpressionRootObject root =
         new ExpressionRootObject(joinPoint.getTarget(), joinPoint.getArgs());
     EvaluationContext context =
@@ -49,7 +49,7 @@ public class DefaultLockKeyServiceImpl implements LockKeyService {
       for (String key : keys) {
         if (ObjectUtil.isNotEmpty(key)) {
           nameBuilder
-              .append(":")
+              .append(separator)
               .append(EXPRESSION_PARSER.parseExpression(key).getValue(context, String.class));
         }
       }

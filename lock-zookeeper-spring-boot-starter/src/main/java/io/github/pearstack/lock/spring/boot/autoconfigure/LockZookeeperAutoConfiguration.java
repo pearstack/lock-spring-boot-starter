@@ -1,7 +1,9 @@
 package io.github.pearstack.lock.spring.boot.autoconfigure;
 
-import io.github.pearstack.lock.aspect.LockAspect;
+import io.github.pearstack.lock.service.LockService;
+import io.github.pearstack.lock.service.LockZookeeperServiceImpl;
 import org.apache.curator.framework.CuratorFramework;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,8 +11,13 @@ import org.springframework.integration.zookeeper.config.CuratorFrameworkFactoryB
 import org.springframework.integration.zookeeper.lock.ZookeeperLockRegistry;
 
 import javax.annotation.Resource;
+import java.util.concurrent.locks.Lock;
 
-/** @author lihao3 */
+/**
+ * lock-zookeeper-spring-boot-starter 自动装配类
+ *
+ * @author lihao3
+ */
 @Configuration
 @EnableConfigurationProperties(LockZookeeperAutoProperties.class)
 public class LockZookeeperAutoConfiguration {
@@ -25,11 +32,12 @@ public class LockZookeeperAutoConfiguration {
 
   @Bean
   public ZookeeperLockRegistry zookeeperLockRegistry(CuratorFramework curatorFramework) {
-    return new ZookeeperLockRegistry(curatorFramework, properties.getPrefix());
+    return new ZookeeperLockRegistry(curatorFramework, "/" + properties.getPrefix());
   }
 
   @Bean
-  public LockAspect lockAspect() {
-    return new LockAspect();
+  @ConditionalOnMissingBean
+  public LockService<Lock> lockService() {
+    return new LockZookeeperServiceImpl();
   }
 }

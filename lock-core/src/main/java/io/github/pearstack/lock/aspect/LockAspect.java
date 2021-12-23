@@ -1,23 +1,25 @@
 package io.github.pearstack.lock.aspect;
 
 import io.github.pearstack.lock.annotation.Locked;
-import io.github.pearstack.lock.service.LockFailedService;
-import io.github.pearstack.lock.service.LockKeyService;
+import io.github.pearstack.lock.service.GetLockKeyService;
+import io.github.pearstack.lock.service.LockService;
+import io.github.pearstack.lock.service.OnLockFailedService;
 import io.github.pearstack.lock.spring.boot.autoconfigure.LockAutoProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.springframework.integration.redis.util.RedisLockRegistry;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Lock;
 
 /**
+ * 切面实现方法
+ *
  * @author lihao3
+ * @date 2021/12/23 14:15
  */
 @Slf4j
 @Aspect
@@ -25,9 +27,9 @@ import java.util.concurrent.locks.Lock;
 public class LockAspect {
 
   @Resource private LockAutoProperties properties;
-  @Resource private RedisLockRegistry redisLockRegistry;
-  @Resource private LockKeyService lockKeyService;
-  @Resource private LockFailedService lockFailedService;
+  @Resource private LockService lockService;
+  @Resource private GetLockKeyService lockKeyService;
+  @Resource private OnLockFailedService lockFailedService;
 
   /**
    * 注解切面地址
@@ -57,22 +59,22 @@ public class LockAspect {
       log.warn("retryInterval more than acquireTimeout,please check your configuration");
     }
     // 获取分布式锁的key
-    String key = lockKeyService.getKey(joinPoint, locked.name(), locked.keys());
+    String key = lockKeyService.getKey(joinPoint, locked.name(), locked.keys(), ":");
     // 初始化锁对象
-    Lock lock = redisLockRegistry.obtain(key);
+    Object lockObject = lockService.getLockObject(key);
     Object result = null;
     // 初始化上锁是否成功标识
-    boolean lockFlag;
+    boolean lockFlag = false;
     try {
       // 尝试上锁
-      lockFlag = lock.tryLock(expire, properties.getUnit());
+      lockFlag = lockService.onLock(lockObject, expire, acquireTimeout);
       // 判断是否上锁成功
       if (!lockFlag) {
         // 获取当前时间
         long start = System.currentTimeMillis();
         // 循环遍历上锁
         while (System.currentTimeMillis() - start < acquireTimeout) {
-          lockFlag = lock.tryLock(expire, properties.getUnit());
+          lockFlag = lockService.onLock(lockObject, expire, acquireTimeout);
           TimeUnit.MILLISECONDS.sleep(properties.getRetryInterval());
         }
       }
@@ -83,10 +85,12 @@ public class LockAspect {
       // 开始执行业务代码
       result = joinPoint.proceed();
     } catch (Throwable e) {
-      lockFailedService.onLockFailed(key);
+      lockFailedService.onLockFailed(key, e);
     } finally {
-      // 解锁
-      lock.unlock();
+      if (lockFlag) {
+        // 解锁
+        lockService.unLock(lockObject);
+      }
     }
     return result;
   }

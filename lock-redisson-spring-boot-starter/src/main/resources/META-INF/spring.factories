@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-io.github.pearstack.lock.spring.boot.autoconfigure.LockRedisRedissonAutoConfiguration
+io.github.pearstack.lock.spring.boot.autoconfigure.LockRedissonAutoConfiguration

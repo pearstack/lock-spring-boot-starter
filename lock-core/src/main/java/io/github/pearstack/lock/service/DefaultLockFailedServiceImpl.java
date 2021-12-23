@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
  * @author lihao3
  */
 @Service
-public class DefaultLockFailedServiceImpl implements LockFailedService {
+public class DefaultLockFailedServiceImpl implements OnLockFailedService {
 
   /**
    * 上锁失败执行接口方法
@@ -19,5 +19,16 @@ public class DefaultLockFailedServiceImpl implements LockFailedService {
   @Override
   public void onLockFailed(String key) {
     throw new OnLockException("上锁失败!");
+  }
+
+  /**
+   * 失败失败调用接口
+   *
+   * @param key 锁key
+   * @param cause 异常信息
+   */
+  @Override
+  public void onLockFailed(String key, Throwable cause) {
+    throw new OnLockException("上锁失败!", cause);
   }
 }
