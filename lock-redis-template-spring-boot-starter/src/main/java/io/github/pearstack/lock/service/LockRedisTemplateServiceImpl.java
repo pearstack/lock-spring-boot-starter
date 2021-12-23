@@ -1,6 +1,7 @@
 package io.github.pearstack.lock.service;
 
 import io.github.pearstack.lock.spring.boot.autoconfigure.LockAutoProperties;
+import org.aspectj.lang.JoinPoint;
 import org.springframework.integration.redis.util.RedisLockRegistry;
 import org.springframework.stereotype.Service;
 
@@ -18,9 +19,11 @@ public class LockRedisTemplateServiceImpl implements LockService<Lock> {
 
   @Resource private LockAutoProperties properties;
   @Resource private RedisLockRegistry redisLockRegistry;
+  @Resource private GetLockKeyService getLockKeyService;
 
   @Override
-  public Lock getLockObject(String key) {
+  public Lock getLockObject(JoinPoint joinPoint, String name, String[] keys) {
+    String key = getLockKeyService.getKey(joinPoint, name, keys, ":");
     return redisLockRegistry.obtain(key);
   }
 

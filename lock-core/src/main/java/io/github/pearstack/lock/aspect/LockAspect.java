@@ -10,6 +10,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -27,7 +28,7 @@ import java.util.concurrent.TimeUnit;
 public class LockAspect {
 
   @Resource private LockAutoProperties properties;
-  @Resource private LockService lockService;
+  @Resource private LockService<Object> lockService;
   @Resource private GetLockKeyService lockKeyService;
   @Resource private OnLockFailedService lockFailedService;
 
@@ -58,10 +59,8 @@ public class LockAspect {
     if (properties.getRetryInterval() >= acquireTimeout) {
       log.warn("retryInterval more than acquireTimeout,please check your configuration");
     }
-    // 获取分布式锁的key
-    String key = lockKeyService.getKey(joinPoint, locked.name(), locked.keys(), ":");
     // 初始化锁对象
-    Object lockObject = lockService.getLockObject(key);
+    Object lockObject = lockService.getLockObject(joinPoint, locked.name(), locked.keys());
     Object result = null;
     // 初始化上锁是否成功标识
     boolean lockFlag = false;
@@ -80,12 +79,14 @@ public class LockAspect {
       }
       // 如果最后还是上锁失败, 那就执行异常方法
       if (!lockFlag) {
-        lockFailedService.onLockFailed(key);
+        lockFailedService.onLockFailed(
+            ((MethodSignature) joinPoint.getSignature()).getMethod(), joinPoint.getArgs());
       }
       // 开始执行业务代码
       result = joinPoint.proceed();
     } catch (Throwable e) {
-      lockFailedService.onLockFailed(key, e);
+      lockFailedService.onLockFailed(
+          ((MethodSignature) joinPoint.getSignature()).getMethod(), joinPoint.getArgs());
     } finally {
       if (lockFlag) {
         // 解锁

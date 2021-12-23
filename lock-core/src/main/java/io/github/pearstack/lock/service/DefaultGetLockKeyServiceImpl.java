@@ -12,13 +12,16 @@ import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 默认分布式锁key生成方法
  *
  * @author lihao3
  */
 @Service
-public class DefaultLockKeyServiceImpl implements GetLockKeyService {
+public class DefaultGetLockKeyServiceImpl implements GetLockKeyService {
 
   /** 参数名称解析器 */
   private static final ParameterNameDiscoverer NAME_DISCOVERER =
@@ -37,23 +40,24 @@ public class DefaultLockKeyServiceImpl implements GetLockKeyService {
             joinPoint.getArgs(),
             NAME_DISCOVERER);
 
+    // 判断用户是否自定义name
+    // 如果没有则使用默认的全路径加方法名
     if (ObjectUtil.isEmpty(name)) {
       name =
-          StrUtil.format(
-              "{}.{}()",
-              joinPoint.getSignature().getDeclaringTypeName(),
-              joinPoint.getSignature().getName());
+          separator
+              + StrUtil.format(
+                  "{}.{}()",
+                  joinPoint.getSignature().getDeclaringTypeName(),
+                  joinPoint.getSignature().getName());
     }
+    // 判断用户是否自定义keys
+    // 如果有值的话追加到name上面
     if (ObjectUtil.isNotEmpty(keys)) {
-      StringBuilder nameBuilder = new StringBuilder(name);
+      List<String> keyList = new ArrayList<>();
       for (String key : keys) {
-        if (ObjectUtil.isNotEmpty(key)) {
-          nameBuilder
-              .append(separator)
-              .append(EXPRESSION_PARSER.parseExpression(key).getValue(context, String.class));
-        }
+        keyList.add(EXPRESSION_PARSER.parseExpression(key).getValue(context, String.class));
       }
-      name = nameBuilder.toString();
+      name = name + separator + String.join(".", keyList);
     }
     return name;
   }
