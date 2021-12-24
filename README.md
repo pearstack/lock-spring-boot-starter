@@ -4,21 +4,18 @@
 
 <h4 align="center">
 A distributed lock that supports the use of Redis and Zookeeper, out of the box, fast and easy to use
-
 <h4 align="center">
     一款基于 Redis 和 Zookeeper 的分布式锁, 开箱即用，快速且易于使用
 </h4> 
 <p align="center">
     <a href="https://github.com/pearstack/lock-spring-boot-starter/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/pearstack/lock-spring-boot-starter"></a>
-    <a href="https://github.com/pearstack/lock-spring-boot-starter/network"><img alt="GitHub forks" src="https://img.shields.io/github/forks/pearstack/lock-spring-boot-starter"></a>
     <a href="https://github.com/pearstack/lock-spring-boot-starter/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/pearstack/lock-spring-boot-starter"></a>
     <a href="https://github.com/pearstack/lock-spring-boot-starter/blob/master/LICENSE"><img alt="GitHub license" src="https://img.shields.io/github/license/pearstack/lock-spring-boot-starter"></a>
 </p>
 <p align="center">
-    <a href="https://github.com/spring-projects/spring-boot"><img alt="spring boot version" src="https://img.shields.io/badge/spring--boot-2.4.1-brightgreen"></a>
-    <a href="https://github.com/redisson/redisson"><img alt="redisson version" src="https://img.shields.io/badge/redisson-3.16.6-brightgreen"></a>
-    <a href="https://github.com/dromara/hutool"><img alt="hutool version" src="https://img.shields.io/badge/hutool--core-5.7.17-brightgreen"></a>
-
+    <a href="https://github.com/pearstack/lock-spring-boot-starter"><img alt="Lines of code" src="https://img.shields.io/tokei/lines/github/lihao0324/lock-spring-boot-starter"></a>
+    <a href="https://mvnrepository.com/artifact/io.github.pearstack/lock-spring-boot-starter"><img alt="Maven Central" src="https://img.shields.io/maven-central/v/io.github.pearstack/lock-spring-boot-starter"></a>
+</p>
 
 
 
@@ -36,145 +33,23 @@ A distributed lock that supports the use of Redis and Zookeeper, out of the box,
 
 3. [框架所用技术](https://github.com/pearstack/lock-spring-boot-starter/network/dependencies)
 
-# 使用方法
-
-1. 引入jar包(**PS:三种模式只能选择一种**)
-
-   1. Redis Template模式
-
-      ```xml
-          <dependency>
-              <groupId>io.github.pearstack</groupId>
-              <artifactId>lock-redis-template-spring-boot-starter</artifactId>
-              <version>0.0.3</version>
-          </dependency>
-      ```
-
-      
-
-   2. Redisson 模式
-
-      ```xml
-          <dependency>
-              <groupId>io.github.pearstack</groupId>
-              <artifactId>lock-redisson-spring-boot-starter</artifactId>
-              <version>0.0.3</version>
-          </dependency>
-      ```
-
-      
-
-   3. ZooKeeper 模式
-
-      ```xml
-          <dependency>
-              <groupId>io.github.pearstack</groupId>
-              <artifactId>lock-zookeeper-spring-boot-starter</artifactId>
-          	<version>0.0.3</version>
-          </dependency>
-      ```
-
-2. 全局配置文件
-
-   ```yaml
-   spring:
-     lock:
-       # 锁key的前缀, 默认为lock, 可不设置
-       prefix: lock
-       # 锁过期时间, 默认为30秒, 可不设置
-       expire: 30
-       # 获取锁超时时间, 默认为3秒, 可不设置
-       acquire-timeout: 3
-       # 获取锁失败时重试间隔时间, 默认为1秒, 可不设置
-       retry-interval: 1
-       # 时间单位, 默认为秒, 可不设置
-       unit: seconds
-       # ZooKeeper 模式
-       zookeeper:
-         host: xxx.xxx.xxx.xxx
-   # Redis 模式
-     redis:
-       host: xxx.xxx.xxx.xxx
-   ```
+   |                           框架描述                           | 版本号 |
+   | :----------------------------------------------------------: | :----: |
+   | [ spring-boot ](https://github.com/spring-projects/spring-boot) | 2.6.2  |
+   |        [ hutool ](https://github.com/dromara/hutool)         | 5.7.17 |
+   |      [redisson ](https://github.com/redisson/redisson)       | 3.16.7 |
 
    
 
-3. 在需要使用分布式锁的地方添加对应注解
+# [使用方法](https://github.com/pearstack/lock-spring-boot-starter/wiki/%E4%B8%AD%E6%96%87%E5%B8%AE%E5%8A%A9%E6%96%87%E6%A1%A3)
 
-   ```java
-   package com.lihao.lock.controller;
-   
-   import io.github.pearstack.lock.annotation.Locked;
-   import lombok.extern.slf4j.Slf4j;
-   import org.springframework.web.bind.annotation.GetMapping;
-   import org.springframework.web.bind.annotation.RestController;
-   
-   @Slf4j
-   @RestController
-   public class TestController {
-   
-     public static Integer apple = 200;
-     public static Integer pear = 200;
-   
-     /**
-      * 带分布式锁, 不会出现超卖
-      *
-      * @param appleId
-      * @return
-      */
-     @Locked(keys = "#appleId")
-     @GetMapping("/get/apple")
-     public String getApple(Long appleId) {
-       if (apple <= 0) {
-         return "对不起, 已经没货了!";
-       } else {
-         apple = apple - 1;
-         log.info("购买成功, 现在apple数量为:{}", apple);
-         return "购买成功!";
-       }
-     }
-   
-     /**
-      * 不带分布式锁, 会出现超卖
-      *
-      * @param pearId
-      */
-     @GetMapping("/get/pear")
-     public String getPear(Long pearId) {
-       if (pear <= 0) {
-         return "对不起, 已经没货了!";
-       } else {
-         pear = pear - 1;
-         log.info("购买成功, 现在pear数量为:{}", pear);
-         return "购买成功!";
-       }
-     }
-   }
-   ```
+# 使用lock-spring-boot-starter的开源项目
 
-   
+暂无~(欢迎留言)
 
+# 友情链接`
 
-
-# 自定义接口实现
-
-1.  自定义分布式锁key name 
-
-   ```java
-   
-   ```
-
-   
-
-2.  自定义上锁失败业务
-
-   ```java
-   
-   ```
-
-   
-
-
+暂无~ (欢迎交换链接)
 
 # 点赞趋势
 
