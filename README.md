@@ -41,7 +41,7 @@ A distributed lock that supports the use of Redis and Zookeeper, out of the box,
 
    
 
-# [使用方法](https://github.com/pearstack/lock-spring-boot-starter/wiki/%E4%B8%AD%E6%96%87%E5%B8%AE%E5%8A%A9%E6%96%87%E6%A1%A3)
+# [帮助文档](https://github.com/pearstack/lock-spring-boot-starter/wiki/%E4%B8%AD%E6%96%87%E5%B8%AE%E5%8A%A9%E6%96%87%E6%A1%A3)
 
 # 使用lock-spring-boot-starter的开源项目
 
