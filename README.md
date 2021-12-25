@@ -33,13 +33,13 @@ A distributed lock that supports the use of Redis and Zookeeper, out of the box,
 
 3. [框架所用技术](https://github.com/pearstack/lock-spring-boot-starter/network/dependencies)
 
-   |              框架描述               | 版本号  |                  官网                  |
+   |              框架名称               | 版本号  |                  官网                  |
    | :---------------------------------: | :-----: | :------------------------------------: |
    |       spring-boot-starter-aop       |  2.6.2  | https://spring.io/projects/spring-boot |
    |   spring-boot-starter-validation    |  2.6.2  | https://spring.io/projects/spring-boot |
    |      spring-integration-redis       |  2.6.2  | https://spring.io/projects/spring-boot |
    |   spring-boot-starter-data-redis    |  2.6.2  | https://spring.io/projects/spring-boot |
-   |    redisson-spring-boot-starter     |  2.6.2  | https://spring.io/projects/spring-boot |
+   |    redisson-spring-boot-starter     | 3.16.7  |          http://redisson.org           |
    |    spring-integration-zookeeper     |  2.6.2  | https://spring.io/projects/spring-boot |
    | spring-boot-configuration-processor |  2.6.2  | https://spring.io/projects/spring-boot |
    |             hutool-core             | 5.7.17  |   https://github.com/dromara/hutool    |
