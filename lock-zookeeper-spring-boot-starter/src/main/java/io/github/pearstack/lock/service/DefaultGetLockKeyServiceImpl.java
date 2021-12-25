@@ -15,11 +15,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 默认分布式锁key生成方法
- *
- * @author lihao3
- */
 @Service
 public class DefaultGetLockKeyServiceImpl implements GetLockKeyService {
 
@@ -30,7 +25,7 @@ public class DefaultGetLockKeyServiceImpl implements GetLockKeyService {
   private static final ExpressionParser EXPRESSION_PARSER = new SpelExpressionParser();
 
   @Override
-  public String getKey(JoinPoint joinPoint, String name, String[] keys, String separator) {
+  public String getKey(JoinPoint joinPoint, String name, String[] keys) {
     ExpressionRootObject root =
         new ExpressionRootObject(joinPoint.getTarget(), joinPoint.getArgs());
     EvaluationContext context =
@@ -44,7 +39,7 @@ public class DefaultGetLockKeyServiceImpl implements GetLockKeyService {
     // 如果没有则使用默认的全路径加方法名
     if (ObjectUtil.isEmpty(name)) {
       name =
-          separator
+          "/"
               + StrUtil.format(
                   "{}.{}()",
                   joinPoint.getSignature().getDeclaringTypeName(),
@@ -57,7 +52,7 @@ public class DefaultGetLockKeyServiceImpl implements GetLockKeyService {
       for (String key : keys) {
         keyList.add(EXPRESSION_PARSER.parseExpression(key).getValue(context, String.class));
       }
-      name = name + separator + String.join(".", keyList);
+      name = name + "/" + String.join(".", keyList);
     }
     return name;
   }

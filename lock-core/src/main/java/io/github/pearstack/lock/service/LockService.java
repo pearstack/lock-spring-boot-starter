@@ -1,7 +1,5 @@
 package io.github.pearstack.lock.service;
 
-import org.aspectj.lang.JoinPoint;
-
 /**
  * 分布式锁的业务接口层
  *
@@ -13,12 +11,10 @@ public interface LockService<T> {
   /**
    * 获取锁的实现对象
    *
-   * @param joinPoint aop切面方法
-   * @param name 对应注解的name属性
-   * @param keys 对应注解的keys属性
-   * @return 分布式锁名称
+   * @param lockName 分布式锁名称
+   * @return 分布式锁对象
    */
-  T getLockObject(JoinPoint joinPoint, String name, String[] keys);
+  T getLockObject(String lockName);
 
   /**
    * 上锁

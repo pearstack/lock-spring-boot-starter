@@ -19,12 +19,10 @@ public class LockRedisTemplateServiceImpl implements LockService<Lock> {
 
   @Resource private LockAutoProperties properties;
   @Resource private RedisLockRegistry redisLockRegistry;
-  @Resource private GetLockKeyService getLockKeyService;
 
   @Override
-  public Lock getLockObject(JoinPoint joinPoint, String name, String[] keys) {
-    String key = getLockKeyService.getKey(joinPoint, name, keys, ":");
-    return redisLockRegistry.obtain(key);
+  public Lock getLockObject(String lockName) {
+    return redisLockRegistry.obtain(lockName);
   }
 
   @Override

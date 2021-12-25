@@ -1,5 +1,7 @@
 package io.github.pearstack.lock.spring.boot.autoconfigure;
 
+import io.github.pearstack.lock.service.DefaultGetLockKeyServiceImpl;
+import io.github.pearstack.lock.service.GetLockKeyService;
 import io.github.pearstack.lock.service.LockService;
 import io.github.pearstack.lock.service.LockZookeeperServiceImpl;
 import org.apache.curator.framework.CuratorFramework;
@@ -39,5 +41,11 @@ public class LockZookeeperAutoConfiguration {
   @ConditionalOnMissingBean
   public LockService<Lock> lockService() {
     return new LockZookeeperServiceImpl();
+  }
+
+  @Bean
+  @ConditionalOnMissingBean
+  public GetLockKeyService getLockKeyService() {
+    return new DefaultGetLockKeyServiceImpl();
   }
 }

@@ -59,8 +59,9 @@ public class LockAspect {
     if (properties.getRetryInterval() >= acquireTimeout) {
       log.warn("retryInterval more than acquireTimeout,please check your configuration");
     }
+    String lockName = lockKeyService.getKey(joinPoint, locked.name(), locked.keys());
     // 初始化锁对象
-    Object lockObject = lockService.getLockObject(joinPoint, locked.name(), locked.keys());
+    Object lockObject = lockService.getLockObject(lockName);
     Object result = null;
     // 初始化上锁是否成功标识
     boolean lockFlag = false;

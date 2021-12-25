@@ -17,12 +17,10 @@ public class LockRedissonServiceImpl implements LockService<RLock> {
 
   @Resource private LockAutoProperties properties;
   @Resource private RedissonClient redissonClient;
-  @Resource private GetLockKeyService getLockKeyService;
 
   @Override
-  public RLock getLockObject(JoinPoint joinPoint, String name, String[] keys) {
-    String key = getLockKeyService.getKey(joinPoint, name, keys, ":");
-    return redissonClient.getLock(properties.getPrefix() + key);
+  public RLock getLockObject(String lockName) {
+    return redissonClient.getLock(lockName);
   }
 
   @Override

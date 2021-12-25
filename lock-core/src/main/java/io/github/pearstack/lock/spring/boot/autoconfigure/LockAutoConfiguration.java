@@ -2,8 +2,6 @@ package io.github.pearstack.lock.spring.boot.autoconfigure;
 
 import io.github.pearstack.lock.aspect.LockAspect;
 import io.github.pearstack.lock.service.DefaultLockFailedServiceImpl;
-import io.github.pearstack.lock.service.DefaultGetLockKeyServiceImpl;
-import io.github.pearstack.lock.service.GetLockKeyService;
 import io.github.pearstack.lock.service.OnLockFailedService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -21,12 +19,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @EnableConfigurationProperties(LockAutoProperties.class)
 public class LockAutoConfiguration {
-
-  @Bean
-  @ConditionalOnMissingBean
-  public GetLockKeyService lockedService() {
-    return new DefaultGetLockKeyServiceImpl();
-  }
 
   @Bean
   @ConditionalOnMissingBean

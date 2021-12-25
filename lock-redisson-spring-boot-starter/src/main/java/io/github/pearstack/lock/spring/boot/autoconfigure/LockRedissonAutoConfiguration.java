@@ -1,5 +1,7 @@
 package io.github.pearstack.lock.spring.boot.autoconfigure;
 
+import io.github.pearstack.lock.service.DefaultGetLockKeyServiceImpl;
+import io.github.pearstack.lock.service.GetLockKeyService;
 import io.github.pearstack.lock.service.LockRedissonServiceImpl;
 import io.github.pearstack.lock.service.LockService;
 import org.redisson.api.RLock;
@@ -22,5 +24,11 @@ public class LockRedissonAutoConfiguration {
   @ConditionalOnMissingBean
   public LockService<RLock> lockService() {
     return new LockRedissonServiceImpl();
+  }
+
+  @Bean
+  @ConditionalOnMissingBean
+  public GetLockKeyService getLockKeyService() {
+    return new DefaultGetLockKeyServiceImpl();
   }
 }
