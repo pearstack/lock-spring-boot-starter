@@ -33,12 +33,18 @@ A distributed lock that supports the use of Redis and Zookeeper, out of the box,
 
 3. [框架所用技术](https://github.com/pearstack/lock-spring-boot-starter/network/dependencies)
 
-   |                           框架描述                           | 版本号 |
-   | :----------------------------------------------------------: | :----: |
-   | [ spring-boot ](https://github.com/spring-projects/spring-boot) | 2.6.2  |
-   |        [ hutool ](https://github.com/dromara/hutool)         | 5.7.17 |
-   |      [redisson ](https://github.com/redisson/redisson)       | 3.16.7 |
-
+   |              框架描述               | 版本号  |                  官网                  |
+   | :---------------------------------: | :-----: | :------------------------------------: |
+   |       spring-boot-starter-aop       |  2.6.2  | https://spring.io/projects/spring-boot |
+   |   spring-boot-starter-validation    |  2.6.2  | https://spring.io/projects/spring-boot |
+   |      spring-integration-redis       |  2.6.2  | https://spring.io/projects/spring-boot |
+   |   spring-boot-starter-data-redis    |  2.6.2  | https://spring.io/projects/spring-boot |
+   |    redisson-spring-boot-starter     |  2.6.2  | https://spring.io/projects/spring-boot |
+   |    spring-integration-zookeeper     |  2.6.2  | https://spring.io/projects/spring-boot |
+   | spring-boot-configuration-processor |  2.6.2  | https://spring.io/projects/spring-boot |
+   |             hutool-core             | 5.7.17  |   https://github.com/dromara/hutool    |
+   |               lombok                | 1.18.22 |       https://projectlombok.org        |
+   
    
 
 # [帮助文档](https://github.com/pearstack/lock-spring-boot-starter/wiki/%E4%B8%AD%E6%96%87%E5%B8%AE%E5%8A%A9%E6%96%87%E6%A1%A3)
