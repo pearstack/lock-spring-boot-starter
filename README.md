@@ -1,7 +1,6 @@
 <h1 align="center">
       lock-spring-boot-starter
 </h1>
-
 <h4 align="center">
 A distributed lock that supports the use of Redis and Zookeeper, out of the box, fast and easy to use
 <h4 align="center">
@@ -11,12 +10,9 @@ A distributed lock that supports the use of Redis and Zookeeper, out of the box,
     <a href="https://github.com/pearstack/lock-spring-boot-starter/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/pearstack/lock-spring-boot-starter"></a>
     <a href="https://github.com/pearstack/lock-spring-boot-starter/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/pearstack/lock-spring-boot-starter"></a>
     <a href="https://github.com/pearstack/lock-spring-boot-starter/blob/master/LICENSE"><img alt="GitHub license" src="https://img.shields.io/github/license/pearstack/lock-spring-boot-starter"></a>
-</p>
-<p align="center">
-    <a href="https://github.com/pearstack/lock-spring-boot-starter"><img alt="Lines of code" src="https://img.shields.io/tokei/lines/github/lihao0324/lock-spring-boot-starter"></a>
-    <a href="https://mvnrepository.com/artifact/io.github.pearstack/lock-spring-boot-starter"><img alt="Maven Central" src="https://img.shields.io/maven-central/v/io.github.pearstack/lock-spring-boot-starter"></a>
-</p>
-
+    <a href="https://github.com/pearstack/lock-spring-boot-starter/network"><img alt="GitHub forks" src="https://img.shields.io/github/forks/pearstack/lock-spring-boot-starter"></a>
+    <img alt="Lines of code" src="https://img.shields.io/tokei/lines/github/pearstack/lock-spring-boot-starter">
+    <img alt="GitHub code size in bytes" src="https://img.shields.io/github/languages/code-size/lihao0324/lock-spring-boot-starter">
 
 
 # 工程简介
@@ -31,7 +27,7 @@ A distributed lock that supports the use of Redis and Zookeeper, out of the box,
    2. 支持`自定义key`, 以及`spring el`表达式
    3. 将生成key的方法和上锁失败的异常方法作为接口, 可以自定义实现层, 更加自由
 
-3. [框架所用技术](https://github.com/pearstack/lock-spring-boot-starter/network/dependencies)
+3. [依赖版本](https://github.com/pearstack/lock-spring-boot-starter/network/dependencies)
 
    |              框架名称               | 版本号  |                  官网                  |
    | :---------------------------------: | :-----: | :------------------------------------: |
@@ -47,7 +43,116 @@ A distributed lock that supports the use of Redis and Zookeeper, out of the box,
    
    
 
-# [帮助文档](https://github.com/pearstack/lock-spring-boot-starter/wiki/%E4%B8%AD%E6%96%87%E5%B8%AE%E5%8A%A9%E6%96%87%E6%A1%A3)
+# 安装
+
+1. Redisson 模式 <img alt="Maven Central" src="https://img.shields.io/maven-central/v/io.github.pearstack/lock-redisson-spring-boot-starter?label=lock-redisson-spring-boot-starter&style=for-the-badge">
+
+   1. Apache Maven
+
+      ```xml
+      <dependency>
+        <groupId>io.github.pearstack</groupId>
+        <artifactId>lock-redisson-spring-boot-starter</artifactId>
+        <version>${last.version}</version>
+      </dependency>
+      ```
+
+   2. Gradle Groovy DSL
+
+      ```groovy
+      implementation 'io.github.pearstack:lock-redisson-spring-boot-starter:${last.version}'
+      ```
+
+2. Redis Template模式 <img alt="Maven Central" src="https://img.shields.io/maven-central/v/io.github.pearstack/lock-redis-template-spring-boot-starter?label=lock-redis-template-spring-boot-starter&style=for-the-badge">
+
+   1. Apache Maven
+
+      ```xml
+      <dependency>
+        <groupId>io.github.pearstack</groupId>
+        <artifactId>lock-redis-template-spring-boot-starter</artifactId>
+        <version>${last.version}</version>
+      </dependency>
+      ```
+
+   2. Gradle Groovy DSL
+
+      ```groovy
+      implementation 'io.github.pearstack:lock-redis-template-spring-boot-starter:${last.version}'
+      ```
+
+3. ZooKeeper 模式 <img alt="Maven Central" src="https://img.shields.io/maven-central/v/io.github.pearstack/lock-zookeeper-spring-boot-starter?label=lock-zookeeper-spring-boot-starter&style=for-the-badge">
+
+   1. Apache Maven
+
+      ```xml
+      <dependency>
+        <groupId>io.github.pearstack</groupId>
+        <artifactId>lock-zookeeper-spring-boot-starter</artifactId>
+        <version>${last.version}</version>
+      </dependency>
+      ```
+
+   2. Gradle Groovy DSL
+
+      ```groovy
+      implementation 'io.github.pearstack:lock-zookeeper-spring-boot-starter:${last.version}'
+      ```
+
+# 快速开始
+
+PS: 更多细节请看[帮助文档](https://github.com/pearstack/lock-spring-boot-starter/wiki/%E4%B8%AD%E6%96%87%E5%B8%AE%E5%8A%A9%E6%96%87%E6%A1%A3)
+
+```java
+package com.lihao.lock.controller;
+
+import io.github.pearstack.lock.annotation.Locked;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@Slf4j
+@RestController
+public class TestController {
+
+  public static Integer apple = 200;
+  public static Integer pear = 200;
+
+  /**
+   * 带分布式锁, 不会出现超卖
+   *
+   * @param appleId
+   * @return
+   */
+  @Locked(keys = "#appleId")
+  @GetMapping("/get/apple")
+  public String getApple(Long appleId) {
+    if (apple <= 0) {
+      return "对不起, 已经没货了!";
+    } else {
+      apple = apple - 1;
+      log.info("购买成功, 现在apple数量为:{}", apple);
+      return "购买成功!";
+    }
+  }
+
+  /**
+   * 不带分布式锁, 会出现超卖
+   *
+   * @param pearId
+   */
+  @GetMapping("/get/pear")
+  public String getPear(Long pearId) {
+    if (pear <= 0) {
+      return "对不起, 已经没货了!";
+    } else {
+      pear = pear - 1;
+      log.info("购买成功, 现在pear数量为:{}", pear);
+      return "购买成功!";
+    }
+  }
+}
+```
 
 
 
@@ -67,7 +172,7 @@ A distributed lock that supports the use of Redis and Zookeeper, out of the box,
 
 
 
-# 点赞趋势
+# 趋势图
 
  [![Stargazers over time](https://starchart.cc/pearstack/lock-spring-boot-starter.svg)](https://starchart.cc/pearstack/lock-spring-boot-starter) 
 
