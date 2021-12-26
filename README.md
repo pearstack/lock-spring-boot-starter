@@ -17,6 +17,10 @@ A distributed lock that supports the use of Redis and Zookeeper, out of the box,
 
 # 工程简介
 
+点击链接加入群聊【Pear Stack】讨论交流：[293972109](https://jq.qq.com/?_wv=1027&k=lw2E7QlX)
+
+国内镜像: 【Gitee】：[lock-spring-boot-starter](https://gitee.com/pear-stack/lock-spring-boot-starter)
+
 1. 简单描述
 
    `lock-spring-boot-starter` 一款分布式锁, 支持使用 `Redis` 和 `ZooKeeper`, 开箱即用, 快捷方便
@@ -45,7 +49,7 @@ A distributed lock that supports the use of Redis and Zookeeper, out of the box,
 
 # 安装
 
-1. Redisson 模式 <img alt="Maven Central" src="https://img.shields.io/maven-central/v/io.github.pearstack/lock-redisson-spring-boot-starter?label=lock-redisson-spring-boot-starter&style=for-the-badge">
+1. Redisson 模式 ![Maven Central](https://img.shields.io/maven-central/v/io.github.pearstack/lock-redisson-spring-boot-starter?style=flat-square)
 
    1. Apache Maven
 
@@ -63,7 +67,7 @@ A distributed lock that supports the use of Redis and Zookeeper, out of the box,
       implementation 'io.github.pearstack:lock-redisson-spring-boot-starter:${last.version}'
       ```
 
-2. Redis Template模式 <img alt="Maven Central" src="https://img.shields.io/maven-central/v/io.github.pearstack/lock-redis-template-spring-boot-starter?label=lock-redis-template-spring-boot-starter&style=for-the-badge">
+2. Redis Template模式 ![Maven Central](https://img.shields.io/maven-central/v/io.github.pearstack/lock-redis-template-spring-boot-starter?style=flat-square)
 
    1. Apache Maven
 
@@ -81,7 +85,7 @@ A distributed lock that supports the use of Redis and Zookeeper, out of the box,
       implementation 'io.github.pearstack:lock-redis-template-spring-boot-starter:${last.version}'
       ```
 
-3. ZooKeeper 模式 <img alt="Maven Central" src="https://img.shields.io/maven-central/v/io.github.pearstack/lock-zookeeper-spring-boot-starter?label=lock-zookeeper-spring-boot-starter&style=for-the-badge">
+3. ZooKeeper 模式 ![Maven Central](https://img.shields.io/maven-central/v/io.github.pearstack/lock-zookeeper-spring-boot-starter?style=flat-square)
 
    1. Apache Maven
 
@@ -153,10 +157,6 @@ public class TestController {
   }
 }
 ```
-
-
-
-# [国内镜像](https://gitee.com/pear-stack/lock-spring-boot-starter)
 
 
 
