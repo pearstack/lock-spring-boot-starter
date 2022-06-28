@@ -67,7 +67,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <spring-boot.version>2.6.2</spring-boot.version>
-        <hutool-core.version>5.7.17</hutool-core.version>
+        <hutool-core.version>5.8.4</hutool-core.version>
         <redisson-spring-boot-starter.version>3.16.7</redisson-spring-boot-starter.version>
         <lock-core.version>0.0.3</lock-core.version>
     </properties>
